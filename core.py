@@ -1,7 +1,14 @@
-from bs4 import BeautifulSoup
-import requests
-import csv
-print("CHECKPOINT 0")
+"""
+core.py is a part of a project 'Ariadna' developed by Olha Babicheva and Konrad Kihan
+
+File reads user's genome -> translates rsid from genome into gene names basing on ncbi database->
+-> save data into the file
+
+More information in README file
+"""
+import csv  # reading and creating csv file
+import requests  # getting respone from a website
+from bs4 import BeautifulSoup  # finding content on a website
 
 
 def rsid_finder(file):
@@ -18,15 +25,17 @@ def rsid_finder(file):
         return gene_id
 
 
+# connecting with a website
 def get_response(gene_id_pos):
-    gene_rs = gene_id_pos
-    url = "https://www.ncbi.nlm.nih.gov/search/all/?term=" + gene_rs
+    gene_rs = gene_id_pos  # it specifies witch to witch rsid page need to connect
+    url = "https://www.ncbi.nlm.nih.gov/search/all/?term=" + gene_rs  # full url
     source = requests.get(url).text  # gets the source code of response from website
-    soup = BeautifulSoup(source, "lxml")
+    soup = BeautifulSoup(source, "lxml")  # converting
 
     return soup
 
 
+# finds the translation for gene name on ncbi website while connected
 def get_from_web():
     main_content = soup.find("main")
 
@@ -39,13 +48,14 @@ def get_from_web():
     div_five = div_four.find("div", class_="ncbi-docsum")
     div_six = div_five.find("div")
     paragraph = div_six.find("p", class_="ncbi-doc-excerpt").text
+
     return paragraph
 
 
+# creates the dictionary csv file where RSID and GENE NAMES are stored
 def write_dict(rsid, name):
     with open("dictionary.csv", "a", newline="") as new_file:
         csv_writer = csv.writer(new_file)
-        # for rsid in dictionary:
         csv_writer.writerow([rsid, name])
 
 
@@ -63,11 +73,10 @@ else:
         print(e)
 
 
-"""When list with RSIDS is loaded into memory - find all translations"""
-print("CHECKPOINT 1")
+"""When list with RSIDS is loaded into memory - find all translations
+finding paragraph with translation on the website of NCBI"""
 
 
-"""finding paragraph with translation on the website of NCBI"""
 for rs in gene_id:
     # getting entering NCBI website for each RSID
     get_response(rs)
@@ -76,11 +85,10 @@ for rs in gene_id:
         get_from_web()
         paragraph = get_from_web()
 
-        # print("CHECKPOINT 2")
         if "in the" in paragraph:
             value = paragraph.split()
             write_dict(rsid=rs, name=value[5])
+
     except AttributeError as e:
         print(e)    # pops up if no RSID - GENE translation in database
-
 
