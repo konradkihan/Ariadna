@@ -1,4 +1,4 @@
-name,correlation,desease
+gene_name,correlation,issue
 GNG12,0.87,alzheimer
 HTR7,0.86,alzheimer
 KRT19,0.86,alzheimer
@@ -55,3 +55,20 @@ TP63,0.84,obesity
 MPZL3,0.83,obesity
 PNPLA1,0.82,obesity
 OSTM1,0.80,obesity
+CAP1,0.89,Williams_syndrome
+INPP5F,0.87,Williams_syndrome
+MEAF6,0.86,Williams_syndrome
+CNNM4,0.86,Williams_syndrome
+TDP1,0.85,Williams_syndrome
+EHBP1L1,0.85,Williams_syndrome
+ACTG1,0.84,Williams_syndrome
+ACTB,0.84,Williams_syndrome
+ADAM19,0.84,Williams_syndrome
+GNB2,0.84,Williams_syndrome
+GLI2,0.83,Williams_syndrome
+PLEKHO1,0.83,Williams_syndrome
+ATP2A1,0.83,Williams_syndrome
+GTSE1,0.83,Williams_syndrome
+ARPC2,0.82,Williams_syndrome
+GNA11,0.82,Williams_syndrome
+CLECL1,0.82,Williams_syndrome
