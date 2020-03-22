@@ -6,6 +6,7 @@ File reads user's genome -> translates rsid from genome into gene names basing o
 
 More information in README file
 """
+
 import csv  # reading and creating csv file
 import requests  # getting respone from a website
 from bs4 import BeautifulSoup  # finding content on a website
@@ -53,8 +54,8 @@ def get_from_web():
 
 
 # creates the dictionary csv file where RSID and GENE NAMES are stored
-def write_dict(rsid, name):
-    with open("dictionary.csv", "a", newline="") as new_file:
+def write_dict(rsid, name, dictionary_file):
+    with open(dictionary_file, "a", newline="") as new_file:
         csv_writer = csv.writer(new_file)
         csv_writer.writerow([rsid, name])
 
@@ -66,7 +67,6 @@ if file == "" or file == " " or file == "  " or file == "\t":
     gene_id = rsid_finder(file)  # got a list with all RSIDs from file
 else:
     try:
-        file = "'" + file + "'"
         rsid_finder(file)
         gene_id = rsid_finder(file)  # got a list with all RSIDs from file
     except FileNotFoundError as e:
@@ -76,7 +76,8 @@ else:
 """When list with RSIDS is loaded into memory - find all translations
 finding paragraph with translation on the website of NCBI"""
 
-
+dictionary = input("Enter name of dictionary file that will be created during the process: ") # dictionary name
+dictionary = dictionary + ".csv"
 for rs in gene_id:
     # getting entering NCBI website for each RSID
     get_response(rs)
@@ -87,7 +88,7 @@ for rs in gene_id:
 
         if "in the" in paragraph:
             value = paragraph.split()
-            write_dict(rsid=rs, name=value[5])
+            write_dict(rsid=rs, name=value[5], dictionary_file=dictionary)
 
     except AttributeError as e:
         print(e)    # pops up if no RSID - GENE translation in database
