@@ -70,6 +70,7 @@ postioner = 0
 is_appeard = []
 try:
     filetoread = input("Enter name of your dictionary file")
+    resultfile = open('wynik.txt', 'a+')
     with open(filetoread, "r") as dictionary:
         csv_reader = csv.reader(dictionary)
 
@@ -88,6 +89,9 @@ try:
                 # thanks to this IF lines dont multiply
                 if line[1] not in is_appeard:
                     print(line[1], corel[corelation_index], issue[issue_index])
+                    result = line[1], corel[corelation_index], issue[issue_index]
+                    res = str(result).replace('(','').replace(')','').replace('"','').replace('Williams_syndrome','Williams syndrome').replace('down_syndrome','Down syndrome').replace('cystic_fibrosis','Cystic fibrosis').replace('obesity','Obesity').replace("'", "")
+                    resultfile.write(str(res) + "\n")
                     is_appeard.append(line[1])
                 else:
                     pass
