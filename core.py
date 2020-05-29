@@ -1,9 +1,7 @@
 """
 core.py is a part of a project 'Ariadna' developed by Olha Babicheva and Konrad Kihan
-
 File reads user's genome -> translates rsid from genome into gene names basing on ncbi database->
 -> save data into the file
-
 More information in README file
 """
 
@@ -31,24 +29,14 @@ def get_response(gene_id_pos):
     gene_rs = gene_id_pos  # it specifies witch to witch rsid page need to connect
     url = "https://www.ncbi.nlm.nih.gov/search/all/?term=" + gene_rs  # full url
     source = requests.get(url).text  # gets the source code of response from website
-    soup = BeautifulSoup(source, "lxml")  # converting
-
+    soup = BeautifulSoup(source, "html.parser")  # converting
     return soup
 
 
 # finds the translation for gene name on ncbi website while connected
 def get_from_web():
-    main_content = soup.find("main")
+    paragraph = soup.find_all('p', class_="ncbi-doc-excerpt")
 
-    section = main_content.find("section", class_="usa-section gquery")
-    section_two = section.find("section", class_="gq-feature-section")
-    div_one = section_two.find("div", class_="usa-grid-full")
-    div_two = div_one.find("div", class_="usa-width-two-thirds primary-content")
-    div_three = div_two.find("div", class_="shadowbox-wrapper")
-    div_four = div_three.find("div", class_="shadowbox")
-    div_five = div_four.find("div", class_="ncbi-docsum")
-    div_six = div_five.find("div")
-    paragraph = div_six.find("p", class_="ncbi-doc-excerpt").text
 
     return paragraph
 
@@ -73,6 +61,7 @@ else:
         print(e)
 
 
+
 """When list with RSIDS is loaded into memory - find all translations
 finding paragraph with translation on the website of NCBI"""
 
@@ -85,11 +74,105 @@ for rs in gene_id:
     try:
         get_from_web()
         paragraph = get_from_web()
+        paragraph = str(paragraph[0]).split()
 
-        if "in the" in paragraph:
-            value = paragraph.split()
-            write_dict(rsid=rs, name=value[5], dictionary_file=dictionary)
+        # rejecting only paragraphs with variations
+        if "in" in paragraph:
+
+            value = paragraph[6]
+            # rejecting multiple variations
+            if "," not in value:
+
+                write_dict(rsid=rs, name=value, dictionary_file=dictionary)
+            else:
+                pass
+
+
+
 
     except AttributeError as e:
-        print(e)    # pops up if no RSID - GENE translation in database
+        print(e)    # pops up if no RSID - GENE translation in database"""
 
+
+
+"""part of previous data_presenting.py"""
+
+
+file = "choroby.csv"
+
+
+def name_find(file=file):
+    with open(file, "r") as csv_file:
+        csv_reader = csv.reader(csv_file)
+
+        next(csv_reader)
+
+        gene = []
+
+
+        for line in csv_reader:
+            gene.append(line[0])
+
+    return gene
+
+
+def corelation_find(file=file):
+    with open(file, "r") as csv_file:
+        csv_reader = csv.reader(csv_file)
+
+        next(csv_reader)
+
+        corel = []
+
+        for line in csv_reader:
+            corel.append(line[1])
+
+    return corel
+
+
+def issue_find(file=file):
+    with open(file, "r") as csv_file:
+        csv_reader = csv.reader(csv_file)
+
+        next(csv_reader)
+
+        issue = []
+
+        for line in csv_reader:
+            issue.append(line[2])
+
+    return issue
+
+
+name = name_find()
+corel = corelation_find()
+issue = issue_find()
+
+
+
+postioner = 0
+
+# checks is issue was already printed out
+is_appeard = []
+try:
+    filetoread = input("Enter name of your dictionary file: ")
+    with open(filetoread, "r") as dictionary:
+        csv_reader = csv.reader(dictionary)
+
+        # line[1] - choroba
+        # corelation_index - index choroby + 2
+        # issue_index - jest taki sam jak corelation_index
+        for line in csv_reader:
+            if(line[1] in name):
+                # indexes from other tables
+                corelation_index = name.index(line[1])
+                issue_index = corelation_index
+
+                # thanks to this IF lines dont multiply
+                if(line[1] not in is_appeard):
+                    print(line[1], corel[corelation_index], issue[issue_index])
+                    is_appeard.append(line[1])
+                else:
+                    pass
+except FileNotFoundError as e:
+    print(e)
