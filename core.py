@@ -163,13 +163,13 @@ try:
         # corelation_index - index choroby + 2
         # issue_index - jest taki sam jak corelation_index
         for line in csv_reader:
-            if(line[1] in name):
+            if line[1] in name:
                 # indexes from other tables
                 corelation_index = name.index(line[1])
                 issue_index = corelation_index
 
                 # thanks to this IF lines dont multiply
-                if(line[1] not in is_appeard):
+                if line[1] not in is_appeard:
                     print(line[1], corel[corelation_index], issue[issue_index])
                     is_appeard.append(line[1])
                 else:
