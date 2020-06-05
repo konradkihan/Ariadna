@@ -1,0 +1,28 @@
+<InputData>
+
+    genomefile: genomefile
+    newdict: newdict
+
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+
+        GridLayout:
+            cols:2
+            Label:
+                text: "Genome file system path: "
+
+            TextInput:
+                id: genomefile
+                multiline: False
+
+            Label:
+                text: "New dictionary file name: "
+
+            TextInput:
+                id: newdict
+                multiline: False
+
+        Button:
+            text: "Run script"
+            on_press: root.foo()
