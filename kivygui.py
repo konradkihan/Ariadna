@@ -10,9 +10,9 @@ from kivy.uix.widget import Widget
 
 class InputData(GridLayout):
 
-    # stuff taken from ariadna.kv file    genomefile = ObjectProperty(None)
+    # stuff taken from ariadna.kv file
+    genomefile = ObjectProperty(None)
     newdict = ObjectProperty(None)
-
 
     def foo(self):
         print(self.genomefile.text, self.newdict.text)
@@ -20,7 +20,6 @@ class InputData(GridLayout):
         # clear input
         self.genomefile.text = ""
         self.newdict.text = ""
-
 
 
 class AriadnaGui(App):
