@@ -4,7 +4,7 @@ risk of suffering in one of a few genetic diseases. <br>
 Data-set from: <br> 
 * http://biogps.org <br>
 * http://biogps.org/#goto=genereport&id=57695 <br>
-* http://www.ensembl.org/Homo_sapiens/Location/View?db=core;g=ENSG00000122257;r=16:57032282-57125214;t=ENST00000567686 <br>
+* http://www.ensembl.org/ <br>
 
 
 # Application info
@@ -23,8 +23,7 @@ Data-set from: <br>
 diseases such as: <br>
 Alzheimer / Obesity / Down Syndrome / Cystic Fibrosis / Williams Syndrome <br>
 
-###Prepare environment
-in CMD:
+**Prepare environment in CMD:**
 ```cmd
 pip install csv
 pip install response
@@ -35,7 +34,7 @@ pip install kivy.deps.angle
 pip install kivy
 ```
 
-###Usage:
+**Usage:**
 1. Prepare your file with genome
 2. Put all necessary program files in same destination
 3. Run "Execution.py" file
@@ -43,7 +42,8 @@ pip install kivy
 
 Internet connection necessary
 
-###Credits 
+**Credits** 
 Olha Babicheva (lead) <br>
 Konrad Kihan <br>
-from Zespół Szkół im. Obrońców Poczty Polskiej in Gdańsku
+<br>
+Zespół Szkół im. Obrońców Poczty Polskiej in Gdańsku
