@@ -21,18 +21,16 @@ class Core:
         gene_rs = gene_id_pos  # it specifies witch to witch rsid page need to connect
         url = "https://www.ncbi.nlm.nih.gov/search/all/?term=" + gene_rs  # full url
         source = requests.get(url).text  # gets the source code of response from website
-        self.soup = BeautifulSoup(source, "html.parser")  # converting
-        return self.soup
-
-    # finds the translation for gene name on ncbi website while connected
-    def get_from_web(self):
-        self.paragraph = self.soup.find_all('p', class_="ncbi-doc-excerpt")
+        soup = BeautifulSoup(source, "html.parser")  # converting
+        self.paragraph = soup.find_all('p', class_="ncbi-doc-excerpt")
         return self.paragraph
+
     # creates the dictionary csv file where RSID and GENE NAMES are stored
     def write_dict(self, rsid, name, dictionary_file):
         with open(dictionary_file, "a", newline="") as new_file:
             csv_writer = csv.writer(new_file)
             csv_writer.writerow([rsid, name])
+
 
 class WriteDct:
     global file
@@ -44,11 +42,11 @@ class WriteDct:
 
             next(csv_reader)
 
-            self.gene = []
+            gene = []
 
             for line in csv_reader:
-                self.gene.append(line[0])
-        return self.gene
+                gene.append(line[0])
+        return gene
 
     def corelation_find(self, file=file):
         with open(file, "r") as csv_file:
@@ -56,11 +54,11 @@ class WriteDct:
 
             next(csv_reader)
 
-            self.corel = []
+            corel = []
 
             for line in csv_reader:
-                self.corel.append(line[1])
-        return self.corel
+                corel.append(line[1])
+        return corel
 
     def issue_find(self, file=file):
         with open(file, "r") as csv_file:
@@ -68,12 +66,12 @@ class WriteDct:
 
             next(csv_reader)
 
-            self.issue = []
+            issue = []
 
             for line in csv_reader:
-                self.issue.append(line[2])
+                issue.append(line[2])
 
-        return self.issue
+        return issue
 
 
 """end of classes"""
@@ -87,20 +85,23 @@ gene_id = Core().rsid_finder(file)
 
 dictionary = input("Enter name of dictionary file that will be created during the process: ") + ".csv"  # dictionary name
 
+core = Core()
+
 for rs in gene_id:
     # getting entering NCBI website for each RSID
-    Core().get_response(rs)
-    soup = Core().get_response(rs)
 
     try:
-        paragraph = Core().get_from_web()
-        paragraph = str(paragraph[0].split())
+        paragraph = core.get_response(rs)
+        paragraph = str(paragraph).split()
+
         # rejecting only paragraphs with variations
         if "in" in paragraph:
             value = paragraph[6]
+            if value[-1] == ",":
+                value = value[0:-1]
             # rejecting multiple variations
             if "," not in value:
-                Core().write_dict(rsid=rs, name=value, dictionary_file=dictionary)
+                core.write_dict(rsid=rs, name=value, dictionary_file=dictionary)
 
             else:
                 pass
@@ -108,10 +109,11 @@ for rs in gene_id:
     except AttributeError as e:
         print(e) # pops up if no RSID - GENE translation in database
 
+WriteDct = WriteDct()
 
-name = WriteDct().name_find()
-corel = WriteDct().corelation_find()
-issue = WriteDct().issue_find()
+name = WriteDct.name_find()
+corel = WriteDct.corelation_find()
+issue = WriteDct.issue_find()
 
 # checks if issue was already printed out
 is_appeard = []
