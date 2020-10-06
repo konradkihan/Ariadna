@@ -17,11 +17,12 @@ Data-set from: <br>
 
 
 **Full application contains:**<br>
-* core.py - core of the whole computing, responsible for reading file with genome, translating and interpreting provided data <br>
+* coreobject.py - core of the whole computing, responsible for reading file with genome, translating and interpreting provided data <br>
 * kivygui.py & ariadnagui.kv - files responsible for nice and smooth GUI
 * choroby.csv - CSV file with gene_name responsible for disease and its correlation. Used by core.py. Provides data for 
 diseases such as: <br>
 Alzheimer / Obesity / Down Syndrome / Cystic Fibrosis / Williams Syndrome <br>
+* and other files
 
 **Prepare environment in CMD:**
 ```cmd
