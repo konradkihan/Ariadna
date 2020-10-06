@@ -38,7 +38,7 @@ class Ariadna(App):
 
         bl.add_widget(gl)
         # w teorii tutaj ma już być plik z wynikami, ale przecież teraz robię gui bez funkcjonalności, więc have fun xD
-        with open("endfile.csv") as f:
+        with open("endfile.csv", 'w+') as f:
             contents = f.read()
         gl.add_widget(Label(text=contents, font_size = 20, size_hint=(1,1)))
         return bl
